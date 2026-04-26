@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Aditi 🐾</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --blush: #FFD1DC;
+            --lavender: #E6E6FA;
+            --mint: #E0FFF0;
+            --sky: #D0EFFF;
+            --text: #4A4A4A;
+            --accent: #FF8DA1;
+            --glass: rgba(255, 255, 255, 0.85);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' style='font-size:24px'><text y='20'>🐾</text></svg>"), auto;
+            
+            /* Background Image */
+            background-image: url('https://png.pngtree.com/background/20230611/original/pngtree-cartoon-animation-of-the-mountains-and-trees-picture-image_3142028.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            z-index: -1;
+        }
+
+        .floating-paw {
+            position: fixed;
+            font-size: 2rem;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            animation: float-around 20s linear infinite;
+        }
+
+        @keyframes float-around {
+            from { transform: translateY(100vh) rotate(0deg); }
+            to { transform: translateY(-10vh) rotate(360deg); }
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        section {
+            display: none;
+            padding: 40px 25px;
+            margin: 20px auto;
+            animation: fadeIn 0.8s ease-out forwards;
+            background: var(--glass);
+            backdrop-filter: blur(8px);
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 2px solid white;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            color: var(--accent);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .btn {
+            background-color: white;
+            color: var(--accent);
+            border: 3px solid var(--accent);
+            padding: 20px 40px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 24px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(255, 141, 161, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            z-index: 10;
+            animation: float-btn 3s ease-in-out infinite;
+        }
+
+        @keyframes float-btn {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .btn:hover {
+            transform: scale(1.08) translateY(-5px);
+            background-color: var(--accent);
+            color: white;
+            box-shadow: 0 15px 30px rgba(255, 141, 161, 0.4);
+        }
+
+        .sticker {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            margin: 10px auto 20px;
+            display: block;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+            animation: bounce 3s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .game-card {
+            aspect-ratio: 1;
+            background: white;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s;
+            font-size: 2.2rem;
+            border: 3px solid var(--mint);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        /* Specifically ensuring the content stays rounded */
+        .game-card > div {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        /* If the card reveals an image instead of emoji, ensure it rounds */
+        .game-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 24px;
+        }
+
+        .game-card:hover {
+            border-color: var(--accent);
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .game-card.revealed {
+            background: var(--sky);
+            pointer-events: none;
+            transform: rotateY(180deg);
+            border-color: white;
+        }
+
+        /* Wheel Container and Rounded Images */
+        .wheel-container {
+            margin: 30px auto;
+            width: 260px;
+            height: 260px;
+            position: relative;
+            border: 10px solid white;
+            border-radius: 32px; /* Matches the rounded square look */
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        #wheel-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 22px; /* Rounded corners for the spinning image */
+        }
+
+        .wheel-placeholder {
+            font-size: 4rem;
+        }
+
+        .wheel-indicator {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            z-index: 20;
+        }
+
+        #wheel-result {
+            margin-top: 20px;
+            font-weight: 600;
+            color: var(--accent);
+            min-height: 3em;
+            font-size: 1.1rem;
+        }
+
+        .footer-text {
+            font-size: 1.1rem;
+            margin-top: 30px;
+            color: var(--accent);
+            font-weight: 600;
+            font-family: 'Pacifico', cursive;
+        }
+
+        #popup {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(150px);
+            background: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            border: 3px solid var(--accent);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        #popup.show {
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="paw-container"></div>
+
+    <div class="container">
+        <!-- Landing -->
+        <section id="landing" class="active">
+            <img src="https://img-12.stickers.cloud/packs/b87cd4a9-1a81-4dd8-b4d5-9952d79c5086/webp/e3248da3-c72d-48fc-9956-5c74ae97aa6c.webp" 
+                 alt="Cute Puppy" class="sticker">
+            <h1>Hey Aditi...</h1>
+            <p>I made something paws-itively silly for you 🐾<br>
+               <span style="font-size: 0.9em; opacity: 0.8;">Click around... it might make you smile.</span>
+            </p>
+            <button class="btn" onclick="nextSection('game')">Start the Fun 🐶</button>
+        </section>
+
+        <!-- Game Section -->
+        <section id="game">
+            <h1>Find the Puppies!</h1>
+            <p>9 cards. 9 surprises. Can you find them all?</p>
+            <div class="game-grid" id="gameGrid"></div>
+            <div style="margin-top: 30px;">
+                <button class="btn" id="nextToWheel" style="display: none;" onclick="nextSection('wheel')">What's next? 🎡</button>
+            </div>
+        </section>
+
+        <!-- Wheel Section -->
+        <section id="wheel">
+            <h1>The Aditi Wheel 🎡</h1>
+            <p>Spin to see a random photo and a message!</p>
+            
+            <div style="position: relative; width: fit-content; margin: 0 auto;">
+                <div class="wheel-indicator">👇</div>
+                <div class="wheel-container" id="wheelCircle">
+                    <div class="wheel-placeholder" id="placeholder-emoji">🐶</div>
+                    <img id="wheel-image" src="" alt="Aditi" style="display: none;">
+                </div>
+            </div>
+
+            <button class="btn" id="spinBtn" onclick="spinWheel()">Spin the Wheel! 💫</button>
+            <div id="wheel-result"></div>
+
+            <div style="margin-top: 30px;">
+                <button class="btn" onclick="nextSection('final')">Finish 🌸</button>
+            </div>
+        </section>
+
+        <!-- Final Section -->
+        <section id="final">
+            <img src="https://s28.sticker.fan/0383_y_st_webp-m/sticker-fan_19880126_m.webp" 
+                 alt="Happy Puppy" class="sticker">
+            <p>Okay... that’s all 😄 I just wanted to make something random and cute for you.</p>
+            <p>If you smiled even once… mission accomplished.</p>
+            <div class="footer-text">Kissing your cheeks and running away 🏃💨</div>
+        </section>
+    </div>
+
+    <div id="popup"></div>
+
+    <script>
+        const aditiImages = [
+            "https://lh3.googleusercontent.com/d/1h0f2S-iu1gjaxN9MCR0FdLH0BhSOpmKm",
+            "https://lh3.googleusercontent.com/d/1Uj6o9kz3IIMS4OdtfMzsm4EJeTE7C-1H",
+            "https://lh3.googleusercontent.com/d/1WXCWjTJ1BGuIDHQz9hl38vmQqZTCoWTE",
+            "https://lh3.googleusercontent.com/d/1Zx62LgbJDatZuWqnEVxH6Q6kZUzYXxV1",
+            "https://lh3.googleusercontent.com/d/1WmlP8INwAEdejs7w_-o9pQW7Bju4FuFA"
+        ];
+
+        const wheelMessages = [
+            "You get a compliment! You're absolutely radiant 🌟",
+            "Warning: This level of cuteness is illegal! 🛑",
+            "You owe me one coffee for being this amazing ☕",
+            "Send me a smile... it makes my day! 😄",
+            "Random fact: This photo of you is a 10/10 📸",
+            "You win a virtual hug! 🫂",
+            "Just look at you! Paws-itively stunning! ✨"
+        ];
+
+        const gameMessages = [
+            "You just unlocked: +1 smile 😊",
+            "This puppy thinks you’re amazing! 🐾",
+            "Warning: You’re dangerously adorable today ⚠️",
+            "Achievement unlocked: Made Aditi click something 😌",
+            "You have a 100% chance of being cute today ✨",
+            "Puppy logic: Aditi = Awesome! 🦴"
+        ];
+
+        let cardsRevealed = 0;
+        const totalCards = 9;
+
+        function createBackground() {
+            const container = document.getElementById('paw-container');
+            const symbols = ['🐾', '🐶', '🦴', '🐩', '🌸', '✨'];
+            for (let i = 0; i < 20; i++) {
+                const paw = document.createElement('div');
+                paw.className = 'floating-paw';
+                paw.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                paw.style.left = Math.random() * 100 + 'vw';
+                paw.style.animationDelay = Math.random() * 15 + 's';
+                paw.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                container.appendChild(paw);
+            }
+        }
+
+        function nextSection(sectionId) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (sectionId === 'game' && document.getElementById('gameGrid').innerHTML === '') initGame();
+        }
+
+        function initGame() {
+            const grid = document.getElementById('gameGrid');
+            for (let i = 0; i < totalCards; i++) {
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                card.innerHTML = '❓';
+                card.onclick = () => revealCard(card, i);
+                grid.appendChild(card);
+            }
+        }
+
+        function revealCard(card, index) {
+            if (card.classList.contains('revealed')) return;
+            card.classList.add('revealed');
+            // Added explicit border-radius here as well to be safe
+            card.innerHTML = `<div style="transform: rotateY(180deg); border-radius: 24px; overflow: hidden;">🐶</div>`;
+            cardsRevealed++;
+            showPopup(gameMessages[index % gameMessages.length]);
+            confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 }, colors: ['#FFD1DC', '#FF8DA1'] });
+            if (cardsRevealed === totalCards) {
+                setTimeout(() => { document.getElementById('nextToWheel').style.display = 'inline-flex'; }, 500);
+            }
+        }
+
+        function showPopup(text) {
+            const popup = document.getElementById('popup');
+            popup.innerText = text;
+            popup.classList.add('show');
+            setTimeout(() => popup.classList.remove('show'), 2500);
+        }
+
+        let isSpinning = false;
+        function spinWheel() {
+            if (isSpinning) return;
+            isSpinning = true;
+            
+            const wheel = document.getElementById('wheelCircle');
+            const wheelImg = document.getElementById('wheel-image');
+            const emoji = document.getElementById('placeholder-emoji');
+            const resultDiv = document.getElementById('wheel-result');
+            const btn = document.getElementById('spinBtn');
+            
+            resultDiv.innerText = "Finding the best photo...";
+            btn.disabled = true;
+            emoji.style.display = 'none';
+            wheelImg.style.display = 'block';
+            
+            let cycleCount = 0;
+            const cycleInterval = setInterval(() => {
+                wheelImg.src = aditiImages[cycleCount % aditiImages.length];
+                cycleCount++;
+            }, 100);
+
+            const randomRotation = 1440 + Math.floor(Math.random() * 360); 
+            wheel.style.transition = "transform 3s cubic-bezier(0.15, 0, 0.15, 1)";
+            wheel.style.transform = `rotate(${randomRotation}deg)`;
+            
+            setTimeout(() => {
+                clearInterval(cycleInterval);
+                const finalImgIndex = Math.floor(Math.random() * aditiImages.length);
+                const finalMsgIndex = Math.floor(Math.random() * wheelMessages.length);
+                
+                wheelImg.src = aditiImages[finalImgIndex];
+                wheelImg.style.transform = `rotate(-${randomRotation}deg)`;
+                
+                resultDiv.innerText = wheelMessages[finalMsgIndex];
+                
+                isSpinning = false;
+                btn.disabled = false;
+                
+                confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+            }, 3000);
+        }
+
+        window.onload = createBackground;
+    </script>
+</body>
+</html>
